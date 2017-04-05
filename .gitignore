@@ -46,7 +46,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-settings.py
 *.log
 *.pot
 *.pyc
