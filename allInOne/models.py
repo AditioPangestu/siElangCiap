@@ -88,6 +88,8 @@ class HistoriBahan(models.Model):
     id_bahan = models.ForeignKey(Bahan)
     tanggal = models.DateField(help_text="Tanggal")
     nomor_bukti = models.CharField(max_length=10, help_text="Nomor Bukti")
+    masuk = models.IntegerField(help_text="Masuk",default=0)
+    keluar = models.IntegerField(help_text="Keluar",default=0)
 
     # Metadata
     class Meta:
@@ -160,6 +162,8 @@ class HistoriAksesoris(models.Model):
     id_aksesoris = models.ForeignKey(Aksesoris)
     tanggal = models.DateField(help_text="Tanggal")
     nomor_bukti = models.CharField(max_length=10, help_text="Nomor Bukti")
+    masuk = models.IntegerField(help_text="Masuk",default=0)
+    keluar = models.IntegerField(help_text="Keluar",default=0)
 
     # Metadata
     class Meta:
