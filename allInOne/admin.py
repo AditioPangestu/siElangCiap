@@ -1,15 +1,18 @@
 from django.contrib import admin
 from .models import Produk, Bahan, Aksesoris, KebutuhanAksesoris, KebutuhanBahan, HistoriBahan, HistoriAksesoris, ProductionOrder, WIP, ProdukPesanan
 
-class AksesorisProdukInline(admin.TabularInline):
-    model = KebutuhanAksesoris.art.through
+class AksesorisProdukInline(admin.StackedInline):
+    model = KebutuhanAksesoris
     extra = 1
+    fk_name = 'art'
 
-class BahanProdukInline(admin.TabularInline):
-    model = KebutuhanBahan.art.through
+class BahanProdukInline(admin.StackedInline):
+    model = KebutuhanBahan
     extra = 1
+    fk_name = 'art'
 
 class ProdukAdmin(admin.ModelAdmin):
+    list_display = ('art','nama_produk', 'brand','image_thumb')
     inlines = [
         AksesorisProdukInline,
         BahanProdukInline,
@@ -17,34 +20,25 @@ class ProdukAdmin(admin.ModelAdmin):
 
 class ProdukPesananInline(admin.StackedInline):
     model = ProdukPesanan
+    fk_name = 'no_po'
     extra = 1
+
 
 class ProductionOrderAdmin(admin.ModelAdmin):
     inlines = [
         ProdukPesananInline
     ]
+    list_display = ('no_po', 'cust', 'tanggal')
 
-class HistoriBahanInline(admin.StackedInline):
-    model = HistoriBahan
-    extra = 1
+class WIPAdmin(admin.ModelAdmin):
+    list_display = ('no_po', 'art', 'qty_wip','delv_string')
 
-class HistoriAksesorisInline(admin.StackedInline):
-    model = HistoriAksesoris
-    extra = 1
-
-class AksesorisAdmin(admin.ModelAdmin):
-    inlines = [
-        HistoriAksesorisInline,
-    ]
-
-class BahanAdmin(admin.ModelAdmin):
-    inlines = [
-        HistoriBahanInline,
-    ]
 
 admin.site.register(Produk,ProdukAdmin)
 admin.site.register(ProductionOrder, ProductionOrderAdmin)
-admin.site.register(WIP)
-admin.site.register(Bahan,BahanAdmin)
-admin.site.register(Aksesoris, AksesorisAdmin)
+admin.site.register(WIP, WIPAdmin)
+admin.site.register(Bahan)
+admin.site.register(Aksesoris)
+admin.site.register(HistoriBahan)
+admin.site.register(HistoriAksesoris)
 
